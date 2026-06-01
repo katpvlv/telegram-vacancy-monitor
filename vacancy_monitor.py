@@ -2,21 +2,21 @@ import asyncio
 from datetime import datetime, timedelta, timezone
 from telethon import TelegramClient
 
-# ===== НАСТРОЙКИ =====
+# ===== SETTINGS =====
 
-# Ваши API-ключи
-API_ID = 0                    # YOUR_API_ID (число)
+# Your API keys
+API_ID = 0                    # YOUR_API_ID
 API_HASH = "your_api_hash"    # YOUR_API_HASH
 PHONE = "+1234567890"         # YOUR_PHONE_NUMBER
 
-# Каналы для мониторинга
+# Channels for monitoring
 CHANNELS = [
     "your_channel_1",
     "your_channel_2",
-    # Добавьте свои каналы
+    # Add your channels
 ]
 
-# Ключевые слова для поиска
+# Search keywords
 KEYWORDS = [
     # Data Analyst
     'data analyst', 'дата аналитик', 'аналитик данных',
@@ -35,22 +35,22 @@ KEYWORDS = [
     'sql analyst', 'crm analyst', 'python analyst'
 ]
 
-# Слова-фильтры для remote 
+# Filter words for remote
 # REMOTE_KEYWORDS = ['remote', 'удалённо', 'удаленно', 'удалёнка', 'удаленка']
 
-# За сколько часов назад искать (24 = последние сутки)
+# How many hours back should search (24 = last day)
 HOURS_BACK = 24
 
-# ===== КОНЕЦ НАСТРОЕК =====
+# ===== END OF SETTINGS =====
 
 
 async def main():
-    # Подключение к Telegram
+    # Connecting to Telegram
     client = TelegramClient('vacancy_session', API_ID, API_HASH)
     await client.start()
-    print('✅ Подключение к Telegram успешно\n')
+    print('✅ Connecting to Telegram successfully\n')
 
-    # Время, начиная с которого ищем
+    # The time from which we are searching
     since = datetime.now(timezone.utc) - timedelta(hours=HOURS_BACK)
 
     found_count = 0
@@ -67,7 +67,7 @@ async def main():
 
                 text_lower = message.text.lower()
 
-                # Проверяем, содержит ли сообщение хотя бы одно ключевое слово
+                # Check if the message contains at least one keyword
                 matched_keywords = [kw for kw in KEYWORDS if kw in text_lower]
 
                 if matched_keywords:
@@ -76,50 +76,50 @@ async def main():
                         'channel': channel_username,
                         'date': message.date.strftime('%Y-%m-%d %H:%M'),
                         'keywords': ', '.join(matched_keywords),
-                        'text': message.text[:500],  # первые 500 символов
+                        'text': message.text[:500],  # first 500 characters
                         'link': f'https://t.me/{channel_username}/{message.id}'
                     }
                     results.append(result)
 
-                    # Пересылаем в Saved Messages (Избранное)
+                    # Forward to Saved Messages
                     await client.forward_messages('me', message)
 
         except Exception as e:
-            print(f'   ⚠️ Ошибка в @{channel_username}: {e}')
+            print(f'   ⚠️ Error in @{channel_username}: {e}')
 
-    # Итоговый отчёт
+    # Final report
     print(f'\n{"="*50}')
-    print(f'🔍 Найдено вакансий: {found_count}')
-    print(f'📅 Период: последние {HOURS_BACK} часов')
+    print(f'🔍 Job openings found: {found_count}')
+    print(f'📅 Period: last {HOURS_BACK} hours')
     print(f'{"="*50}\n')
 
     for i, r in enumerate(results, 1):
-        print(f'--- Вакансия {i} ---')
-        print(f'Канал: @{r["channel"]}')
-        print(f'Дата: {r["date"]}')
-        print(f'Совпадения: {r["keywords"]}')
-        print(f'Ссылка: {r["link"]}')
-        print(f'Текст: {r["text"][:200]}...')
+        print(f'--- Vacancy {i} ---')
+        print(f'Channel: @{r["channel"]}')
+        print(f'Date: {r["date"]}')
+        print(f'Coincidences: {r["keywords"]}')
+        print(f'Link: {r["link"]}')
+        print(f'Text: {r["text"][:200]}...')
         print()
 
-    # Сохраняем результаты в файл
+    # Save the results to a file
     with open('vacancies_report.txt', 'w', encoding='utf-8') as f:
-        f.write(f'Отчёт по вакансиям — {datetime.now().strftime("%Y-%m-%d %H:%M")}\n')
-        f.write(f'Найдено: {found_count}\n')
-        f.write(f'Период: последние {HOURS_BACK} часов\n\n')
+        f.write(f'Vacancy Report — {datetime.now().strftime("%Y-%m-%d %H:%M")}\n')
+        f.write(f'Found: {found_count}\n')
+        f.write(f'Period: last {HOURS_BACK} hours\n\n')
 
         for i, r in enumerate(results, 1):
-            f.write(f'--- Вакансия {i} ---\n')
-            f.write(f'Канал: @{r["channel"]}\n')
-            f.write(f'Дата: {r["date"]}\n')
-            f.write(f'Совпадения: {r["keywords"]}\n')
-            f.write(f'Ссылка: {r["link"]}\n')
-            f.write(f'Текст:\n{r["text"]}\n\n')
+            f.write(f'--- Vacancy {i} ---\n')
+            f.write(f'Channel: @{r["channel"]}\n')
+            f.write(f'Date: {r["date"]}\n')
+            f.write(f'Coincidences: {r["keywords"]}\n')
+            f.write(f'Link: {r["link"]}\n')
+            f.write(f'Text:\n{r["text"]}\n\n')
 
-    print(f'💾 Отчёт сохранён в vacancies_report.txt')
+    print(f'💾 The report is saved in vacancies_report.txt')
 
     await client.disconnect()
 
 
-# Запуск
+# Launch
 asyncio.run(main())
