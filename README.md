@@ -18,10 +18,6 @@ Forwarded vacancies in Saved Messages:
 
 <img src="demo.png" width="300" align="left" alt="Demo">
 
-Demo: filtered vacancies in Saved Messages
-
-<br clear="left">
-
 ### Features
 
 - Monitors any number of public and private Telegram channels in real time
