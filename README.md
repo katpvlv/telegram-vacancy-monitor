@@ -17,6 +17,7 @@ I was actively job hunting and got tired of manually scrolling through 50+ Teleg
 Forwarded vacancies in Saved Messages:
 
 <img src="demo.png" width="300" align="left" alt="Demo">
+<br clear="left">
 
 ### Features
 
