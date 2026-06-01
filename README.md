@@ -12,6 +12,12 @@
 
 I was actively job hunting and got tired of manually scrolling through 50+ Telegram channels every day. So I built this script — it watches the channels for me, filters out the noise by keywords, and forwards only relevant vacancies to my Saved Messages. Now I check one chat instead of fifty.
 
+### Demo
+
+Forwarded vacancies in Saved Messages:
+
+![Demo: filtered vacancies in Saved Messages](demo.png)
+
 ### Features
 
 - Monitors any number of public and private Telegram channels in real time
