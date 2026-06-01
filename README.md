@@ -16,7 +16,11 @@ I was actively job hunting and got tired of manually scrolling through 50+ Teleg
 
 Forwarded vacancies in Saved Messages:
 
-![Demo: filtered vacancies in Saved Messages] <img src="demo.png" width="500" alt="Demo">
+<img src="demo.png" width="300" align="left" alt="Demo">
+
+Demo: filtered vacancies in Saved Messages
+
+<br clear="left">
 
 ### Features
 
